@@ -1,0 +1,34 @@
+#root {
+  font-family:Arial;
+  text-align: center;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ensure the body takes full viewport height */
+}
+.signup{
+  margin-top: 5rem;
+}
+
+.homeImg {
+
+  background-image:url('./images/2024-Formula1-Ferrari-SF-24-002-2160.jpg') ;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin:0;
+  height: 100vh;
+  width:100%;
+  
+}
+.signupBG {
+
+  background-image:url('./images/1967-Toyota-2000GT-006-1440.jpg') ;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin:0;
+  height: 100vh;
+  width:100%;
+}
