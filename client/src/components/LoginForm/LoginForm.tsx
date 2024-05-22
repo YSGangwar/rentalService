@@ -1,27 +1,67 @@
 import React, { useState } from 'react';
+import axios  from 'axios';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Box from '@mui/material/Box';
+import { useCookies } from 'react-cookie';
+import { UseDispatch, useDispatch } from 'react-redux';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Button,  Grid, Radio, 
+import {
+	ReasonPhrases,
+	StatusCodes,
+	getReasonPhrase,
+	getStatusCode,
+} from 'http-status-codes';
+import { Button,Grid, Radio,
+  Typography ,
     FormControl, 
     FormLabel, 
     FormControlLabel, 
+    Alert,
     RadioGroup } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { LoginFormFields } from '../../models/models';
+import { useNavigate } from 'react-router-dom';
+import { getUserType, saveUsername } from '../../services/Actions';
 
 export const LoginForm = () => {
+  const dispatch = useDispatch();
+  const [_,setCookies]=useCookies(["access_token"]);
     const [userType,setUserType]= useState("");
+    const navigate = useNavigate();
+    const [userTypeError , setUserTypeError] = useState(false);
     const {register , handleSubmit ,setError ,formState:{errors , isSubmitting}} = useForm<LoginFormFields>();
     const onSubmit :SubmitHandler<LoginFormFields> = async(data) =>{
         try {
-            await new Promise((resolve)=>setTimeout(resolve,1000));
-            throw new Error(); 
-            console.log(data);
-        } catch (error) {
+          const username = data.username;
+          const password = data.password;
+          const response = await axios.post("http://localhost:3000/auth/login",{
+            username, password, userType
+          })
+          
+          if(response.data.code===401){
+            setError("password",{
+              message:response.data.message
+          })
+          }
+          else if(response.status === StatusCodes.UNAUTHORIZED){
             setError("username",{
-                message:"username already Exists"
+              message:response.data.message
             })
+          }
+          else if(response.data.code==402){
+            setUserTypeError(true);
+          }
+          else{
+            console.log("token",response.data.token,"ID",response.data.userID);
+            setCookies("access_token",response.data.token);
+            window.localStorage.setItem("userID",response.data.userID);
+            dispatch(getUserType(userType));
+            dispatch(saveUsername(username));
+            navigate("/dashboard")
+          }
+          
+        } catch (error) {
+            alert(error);
         }
         
     }
@@ -61,7 +101,7 @@ export const LoginForm = () => {
                     helperText={errors.password?.message}
                 
                 />
-
+               
                 <Grid item xs={6}>
                 <FormControl>
                     <FormLabel>User  Type  </FormLabel>
@@ -74,7 +114,12 @@ export const LoginForm = () => {
                     </RadioGroup>
                 </FormControl>
                 </Grid>
-
+                {
+                  userTypeError && 
+                  <Alert variant="filled" severity="error">
+                     User Type is Wrong 
+                  </Alert>
+                }
                 <Button 
                 variant='contained' color="success"
                 disabled={isSubmitting} type="submit"> 
@@ -86,6 +131,8 @@ export const LoginForm = () => {
                 :"Submit"}
                 </Button>
             </form>   
+            <Typography variant='h6' sx={{marginTop:"30px"}}> Dont Have a Account <span><a href="http://localhost:5173/signup">Sign Up</a></span> Here</Typography>
+
         
           
           

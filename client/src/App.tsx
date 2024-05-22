@@ -6,6 +6,7 @@ import { Signup } from './pages/Signup'
 import { Home } from './pages/Home'
 import { Dashboard } from './pages/Dashboard'
 import { Navbar } from './components/NavbarComp/Navbar'
+import { ProtectedRoutes } from './components/ProtectedRoute/ProtectedRoutes'
 function App() {
 
   return (
@@ -13,10 +14,12 @@ function App() {
      <BrowserRouter>
      <Navbar/>
      <Routes>
+      <Route element={<ProtectedRoutes/>}>
+      <Route path="/dashboard" element={ <Dashboard/> }/>
+      </Route>
       <Route path="/" element={<Home/> } />
       <Route path="/login" element={ <Login/>} />
       <Route path="/signup" element={ <Signup/>} />
-      <Route path="/dashboard" element={ <Dashboard/> }/>
      </Routes>
      </BrowserRouter>
     </>
