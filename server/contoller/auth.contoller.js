@@ -6,8 +6,19 @@ import {
 	getStatusCode,
 } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
-const getRentedCars=async ( req,res)=>{
-  const {username} = req.body;
+
+const getMyCars = async(req, res) =>{
+  const {username} = req.body || {};
+  const allCars = await sellerModel.findOne({username});
+  if (!allCars) {
+    return res.status(404).json({ message: 'NO Cars To show'});
+}
+  return res.status(200).json(allCars.myCars);
+};
+
+
+const getRentedCars=async (req,res)=>{
+  const {username} = req.body ||{};
   const buyer = await buyerModel.findOne({ username });
       
   if (!buyer) {
@@ -20,13 +31,12 @@ const getRentedCars=async ( req,res)=>{
 
 const addRentedCars = async ( req,res) =>{
   const { username , carsData } = req.body || {};
-	console.log("TCL: addRentedCars -> carsData", carsData)
-  const buyer = await buyerModel.findOne({username});
+  const buyer = await sellerModel.findOne({username});
   if(!buyer){
     return res.status(404).json({ message: 'Buyer not found' });
   }
   
-  buyer.rentedCars.push(carsData);
+  buyer.myCars.push(carsData);
   await buyer.save();
   return res.status(200).json({ message: 'Cars added successfully', buyer });
 }
@@ -41,6 +51,11 @@ const signUp = async (req, res) => {
     let buyers = new buyerModel();
     buyers.username = req.body.username;
     await buyers.save();
+  }
+  if(userType=== "seller"){
+    let selles = new sellerModel();
+    selles.username = req.body.username;
+    await selles.save();
   }
   let users = new UserModel();
   users.username = req.body?.username;
@@ -66,4 +81,4 @@ const login = async (req, res)=>{
     return res.json({token,userID:userPresent._id}); 
 }
 
-export default {signUp,login, getRentedCars,addRentedCars};
+export default {signUp,login, getRentedCars,addRentedCars,getMyCars};

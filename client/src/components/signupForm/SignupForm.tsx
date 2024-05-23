@@ -66,7 +66,8 @@ export const SignupForm = () => {
                     {...register("password",{
                       required:"Password is Required",
                       pattern:{
-                          value:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                         value:/\d/,
+                          // value:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                           message:"password  must be of  Proper Format (Special, UpperCase, digit ,lowercase)"
                       }
                     })}

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { CarCard } from '../CarCard/CarCard';
 import { useSelector } from 'react-redux';
+import { Typography } from '@mui/material';
 interface car {
     carName:string,
     carPrice:string,
@@ -33,10 +34,17 @@ export const DashboardBuyer=()=>{
     return (
     <div>
         {
+            rentedCars.length==0?
+            <Typography> No Cars On Rent </Typography>:
+            <>
+            {
             rentedCars?.map((item)=>(
                 <CarCard carName={item.carName} carPrice={item.carPrice} carType={item.carType} carImg={item.carImg} />
             ))
+            }
+            </>
         }
+
 
     </div>
     )

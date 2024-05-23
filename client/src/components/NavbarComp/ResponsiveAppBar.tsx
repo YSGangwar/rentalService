@@ -38,8 +38,6 @@ function ResponsiveAppBar(){
               <Button color='success' variant="contained" onClick={()=>{navigate("/login")}}> Login </Button>
             </> :
             <>
-              
-           
               <Button color='warning' variant="contained" onClick={logout}> Logout </Button>
             </>
           }

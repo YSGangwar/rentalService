@@ -5,5 +5,6 @@ router.post("/signup", authContoller.signUp);
 router.post("/login", authContoller.login);
 router.post("/getRentedCars",authContoller.getRentedCars);
 router.post("/addRentedCars",authContoller.addRentedCars);
+router.post("/getMyCars",authContoller.getMyCars);
 export default router;
 

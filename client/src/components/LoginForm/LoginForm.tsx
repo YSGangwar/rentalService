@@ -56,6 +56,7 @@ export const LoginForm = () => {
             setCookies("access_token",response.data.token);
             window.localStorage.setItem("userID",response.data.userID);
             dispatch(getUserType(userType));
+            window.localStorage.setItem("username",username);
             dispatch(saveUsername(username));
             navigate("/dashboard")
           }
@@ -90,7 +91,8 @@ export const LoginForm = () => {
                     {...register("password",{
                       required:"Password is Required",
                       pattern:{
-                          value:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                          value:/\d/,
+                          // value:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                           message:"password  must be of  Proper Format (Special, UpperCase, digit ,lowercase)"
                       }
                     })}
