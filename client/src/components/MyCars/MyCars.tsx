@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { CarCard } from '../CarCard/CarCard';
-import { Typography , Grid,Box } from '@mui/material';
+import { Typography , Grid,Box,Card, CardMedia, CardContent, Button } from '@mui/material';
+import { BCard } from '../CarCard/BCard';
 
 interface car {
     carName:string,
@@ -29,13 +30,13 @@ export const MyCars = () =>{
     },[])
     return (
 
-        <Box sx={{ flexGrow: 1 , padding:"50px"}}>
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        <Box sx={{ flexGrow: 1 , padding:"50px" ,marginTop:"100px"}}>
+        <Grid container spacing={3}>
           {cars.length!==0 ? <>
                 {
-                cars?.map((item)=>(
-            <Grid item xs={2} sm={4} md={4} >
-                <CarCard carName={item.carName} carPrice={item.carPrice} carType={item.carType} carImg={item.carImg} />
+                cars?.map((item,index)=>(
+            <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+                <BCard carName={item.carName} carPrice={item.carPrice} carType={item.carType} carImg={item.carImg} buyername="" sellername=""/>
             </Grid>
             ))
           }

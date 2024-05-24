@@ -32,15 +32,7 @@ function ResponsiveAppBar(){
         Targaryen Rentals
         </Typography>
         <Stack direction='row' spacing={2} sx={{ marginLeft: 'auto' }}>
-          {
-            !accessToken ?
-            <>
-              <Button color='success' variant="contained" onClick={()=>{navigate("/login")}}> Login </Button>
-            </> :
-            <>
-              <Button color='warning' variant="contained" onClick={logout}> Logout </Button>
-            </>
-          }
+          
           {
             accessToken && userType==="seller" ? 
             <>
@@ -59,6 +51,15 @@ function ResponsiveAppBar(){
               <>
               </>
             } 
+            {
+            !accessToken ?
+            <>
+              <Button color='success' variant="contained" onClick={()=>{navigate("/login")}}> Login </Button>
+            </> :
+            <>
+              <Button color='warning' variant="contained" onClick={logout}> Logout </Button>
+            </>
+          }
 
             </>
           }

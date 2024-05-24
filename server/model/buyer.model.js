@@ -4,6 +4,7 @@ const car = {
     carPrice:String,
     carType:String,
     carImg:String,
+    sellername:String,
 };
 const buyerSchema = new mongoose.Schema({
     username:String,

@@ -5,10 +5,17 @@ export const car = {
     carType:String,
     carImg:String,
 };
+export const carNew ={
+    buyername:String,
+    carName:String,
+    carPrice:String,
+    carType:String,
+    carImg:String,
+}
 const sellerSchema = new mongoose.Schema({
     username:String,
     carsOnRent:[
-        car
+        carNew
     ],
     myCars: [
         car
