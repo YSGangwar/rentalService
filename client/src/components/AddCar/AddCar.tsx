@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useAddRentedCars } from '../../utils/customHook';
 interface FormFields {
     carName:string,
     carPrice:string,
@@ -19,21 +20,25 @@ interface TYPE {
 
 export const AddCar = () => {
 
-    const username = window.localStorage.getItem('username');
+    const username = window.localStorage.getItem('username')||"";
     const navigate = useNavigate();
     const [showSuccess , setShowSuccess] = useState(false);
     const [reloadPage, setReloadPage ] = useState(false);
     const { register , handleSubmit ,setError, reset ,formState:{errors,isSubmitting}} = useForm<FormFields>();
+    const addRentedCarsMutation = useAddRentedCars();
+
+
     const submitForm : SubmitHandler<FormFields> = async(carsData) => {
         try {
-            const response = await axios.post("http://localhost:3000/auth/addRentedCars",{
-                username , carsData
-            });
+
+            await addRentedCarsMutation.mutateAsync({username,carsData});
+            
+            const response = addRentedCarsMutation;
             console.log(response);
-            if(response.status===404){
-              
+            if(response.status=="error"){
+              return <h1>Error occured</h1>
             }
-            if(response.status===200){
+            if(response.isError==false){
                 setShowSuccess(true);
                 reset();
             }

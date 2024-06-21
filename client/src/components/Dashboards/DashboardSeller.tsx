@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Typography ,Grid} from '@mui/material';
 import { BCard } from '../CarCard/BCard';
+import { useSoldCars } from '../../utils/customHook';
 interface car {
     carName:string,
     carPrice:string,
@@ -10,26 +11,15 @@ interface car {
     buyername:string,
 }
 export const DashboardSeller=()=>{
-    const username = window.localStorage.getItem("username");
-    const [ soldCars , setSoldCars] = useState<car[]>([])
-    const handleSoldCars = async()=>{
-        try {
+    const username = window.localStorage.getItem("username")||"";
 
-            const response = await axios.post("http://localhost:3000/auth/soldcars",
-                {username}
-            );
-            // console.log(username);
-             console.log("dashboard rents",response.data);
-            setSoldCars(response.data);
-            
-        } catch (error) {
-            alert(error);
-        }
+    const { data : soldCars = [], status } = useSoldCars(username);
+    
+    
+    if (status === 'error') {
+    return <Typography variant='h6' align='center' sx={{ margin: "20px" }}>Error loading data</Typography>;
     }
-    useEffect(()=>{
-        handleSoldCars();
-    },[])
-
+    
 
     return (
     <div style={{marginTop:"100px" ,padding:"50px"}}>

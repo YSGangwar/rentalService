@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { CarCard } from '../CarCard/CarCard';
 import { Typography , Grid,Box,Card, CardMedia, CardContent, Button } from '@mui/material';
 import { BCard } from '../CarCard/BCard';
+import { useGetMyCars } from '../../utils/customHook';
 
 interface car {
     carName:string,
@@ -12,22 +13,8 @@ interface car {
 }
 
 export const MyCars = () =>{
-    const [cars,setCars] = useState<car[]>([]);
-    const username = window.localStorage.getItem("username");
-    const displayMycars = async()=>{
-        try {
-            const response = await axios.post("http://localhost:3000/auth/getMyCars",{
-                username
-            })
-            console.log(response.data);
-            setCars(response.data);
-        } catch (error) {
-            alert(error);
-        }
-    }
-    useEffect(()=>{
-        displayMycars()
-    },[])
+    const username = window.localStorage.getItem("username")||"";
+    const { data : cars = [], status } = useGetMyCars(username);
     return (
 
         <Box sx={{ flexGrow: 1 , padding:"50px" ,marginTop:"100px"}}>

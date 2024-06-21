@@ -54,6 +54,7 @@ export const LoginForm = () => {
           else{
             console.log("token",response.data.token,"ID",response.data.userID);
             setCookies("access_token",response.data.token);
+            window.localStorage.setItem("CoreToken",response.data.token);
             window.localStorage.setItem("userID",response.data.userID);
             dispatch(getUserType(userType));
             window.localStorage.setItem("username",username);

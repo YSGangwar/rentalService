@@ -1,6 +1,6 @@
 import { AppBar, Button , Toolbar ,IconButton,Typography,Stack } from "@mui/material";
 import CarRentalIcon from '@mui/icons-material/CarRental';
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import  { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -8,7 +8,7 @@ type Type = {
   userType:string,
 }
 function ResponsiveAppBar(){
-    const [cookies,setCookie, removeCookie] = useCookies(['access_token']); // Access cookies
+    const [cookies,setCookie, removeCookie] = useCookies(['access_token']); 
     const accessToken = cookies.access_token;
     const logout=()=>{
         removeCookie("access_token", { path: '/' });
@@ -50,19 +50,21 @@ function ResponsiveAppBar(){
               :
               <>
               </>
+            
             } 
-            {
-            !accessToken ?
+             </>
+            }
+            <>
+           { !accessToken ?
             <>
               <Button color='success' variant="contained" onClick={()=>{navigate("/login")}}> Login </Button>
             </> :
             <>
               <Button color='warning' variant="contained" onClick={logout}> Logout </Button>
+            </>}
+     
             </>
-          }
-
-            </>
-          }
+          
         </Stack>
       </Toolbar>
     </AppBar>

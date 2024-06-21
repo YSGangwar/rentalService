@@ -11,6 +11,17 @@ html, body {
   margin-top: 5rem;
 }
 
+.notauth {
+  background-image: url('./images/56219394-92f17200-605e-11e9-92b0-c09bd7c0f525.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin:0;
+  height: 100vh;
+  width:100%;
+}
+
+
 .homeImg {
 
   background-image:url('./images/2024-Formula1-Ferrari-SF-24-002-2160.jpg') ;

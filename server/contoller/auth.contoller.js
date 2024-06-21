@@ -21,15 +21,28 @@ const soldCars = async (req, res) =>{
 }
 
 const addCarsOnRentABC = async ( req , res ) => {
-  const {buyerUsername , sellerUsername , carsData} = req.body || {};
+  const {buyerUsername ,incomingUsername , sellerUsername , carsData} = req.body || {};
   const username = sellerUsername;
+  console.log(incomingUsername);
   const sellerData = await sellerModel.findOne({username });
-  if(!sellerData){
-    return res.status(404).json("No seller Found");
+
+
+  const buyerCars  = await buyerModel.findOne({username:incomingUsername});
+  if(!buyerCars){
+    return res.status(404).json("No Buyer Found");
+  }
+  carsData.sellername = sellerUsername;
+  buyerCars.rentedCars.push(carsData);
+  await buyerCars.save();
+  
+  if(!sellerData ){
+    return res.status(404).json("No users Found");
   }
   carsData.buyername=buyerUsername;
   sellerData.carsOnRent.push(carsData);
   await sellerData.save();
+
+
   return res.status(200).json("Carr Added");
 };
 

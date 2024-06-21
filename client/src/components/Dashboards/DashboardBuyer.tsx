@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import { CarCard } from '../CarCard/CarCard';
 import { Typography ,Grid} from '@mui/material';
 import { BCard } from '../CarCard/BCard';
+import { useRentedCars } from '../../utils/customHook';
+import { useMutation, useQuery } from "@tanstack/react-query";
+
 interface car {
     carName:string,
     carPrice:string,
@@ -13,26 +16,20 @@ interface car {
 type Type = {
     username:string,
   }
+
 export const DashboardBuyer=()=>{
     const username = window.localStorage.getItem("username");
-    const [ rentedCars , setRentedCars] = useState<car[]>([])
-    const handleRentedCars = async()=>{
-        try {
 
-            const response = await axios.post("http://localhost:3000/auth/getRentedCars",
-                {username}
-            );
-            // console.log(username);
-            // console.log("dashboard buyer",response.data);
-            setRentedCars(response.data);
-            
-        } catch (error) {
-            alert(error);
-        }
+    const { data: rentedCars = [], status } = useRentedCars(username);
+
+    if (status === "loading") {
+        return <Typography variant='h6' align='center' sx={{ margin: "20px" }}>Loading...</Typography>;
+      }
+    
+    if (status === 'error') {
+    return <Typography variant='h6' align='center' sx={{ margin: "20px" }}>Error loading data</Typography>;
     }
-    useEffect(()=>{
-        handleRentedCars();
-    },[])
+    
     return (
     <div style={{padding:"20px" , marginTop:"100px"}}>
     <Typography variant='h3' align='center' sx={{margin:"20px"}}>DashBoard</Typography>
